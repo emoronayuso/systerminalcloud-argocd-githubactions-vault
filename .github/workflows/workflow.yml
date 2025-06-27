@@ -1,0 +1,18 @@
+jobs:
+  vault-auth:
+    runs-on: [self-hosted, Linux, standard]
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: 🧐 Get JWT
+        id: jwt
+        run: |
+          echo "::set-output name=token::$(curl -s -H 'Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN' \
+          "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://vault" | jq -r .value)"
+
+      - name: Authenticate to Vault
+        run: |
+          export VAULT_ADDR=http://34.34.154.174:8200
+          curl --request POST --data '{"jwt": "${{ steps.jwt.outputs.token }}", "role": "github-role"}' \
+            $VAULT_ADDR/v1/auth/jwt/login
