@@ -1,3 +1,11 @@
+name: CI test systerminal with vault auth JWT
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
 jobs:
   vault-auth:
     runs-on: [self-hosted, Linux, standard]
