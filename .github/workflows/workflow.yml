@@ -8,7 +8,8 @@ on:
 
 jobs:
   vault-auth:
-    runs-on: [self-hosted, Linux, standard]
+#    runs-on: [self-hosted, Linux, standard]
+    runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
